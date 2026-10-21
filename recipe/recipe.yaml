@@ -1,5 +1,5 @@
 context:
-  version: "0.0.12"
+  version: "0.0.13"
 
 package:
   name: iamb
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://github.com/ulyssa/iamb/archive/refs/tags/v${{ version }}.tar.gz
-  sha256: 54e3e87eece1aff22e9d6bd6798492a1d23ea5e831e9d0889b51272c7d4f6cdb
+  sha256: a87b81d4cd60f72725b5b633c78ecb28fccc457f6319037fa9d12096fd6e3ef1
 
 build:
   number: 0
@@ -15,6 +15,9 @@ build:
     env:
       CARGO_PROFILE_RELEASE_STRIP: symbols
       CARGO_PROFILE_RELEASE_LTO: fat
+      # build.rs uses vergen-gitcl; the source tarball isn't a git worktree so
+      # the override is needed, otherwise `env!("VERGEN_GIT_SHA")` fails to compile
+      VERGEN_GIT_SHA: unknown
     content:
       - if: unix
         then:
